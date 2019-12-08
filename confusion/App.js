@@ -1,19 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Main from './components/MainComponent';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Love a burt</Text>
-    </View>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <Main />
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'aqua',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
