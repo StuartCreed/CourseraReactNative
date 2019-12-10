@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, View } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Text, ScrollView, View, FlatList } from 'react-native';
+import { Card, ListItem } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
 
 
@@ -19,42 +19,6 @@ function History() {
    )
 }
 
-function RenderLeader(leader) {
-
-        if (leader != null) {
-            return(
-                   <Card
-                   featuredTitle={leader.name}
-                   image={require('./images/alberto.png')}>
-                       <Text style={{margin: 10}}>
-                           {leader.description}
-                       </Text>
-                   </Card>
-            );
-        }
-        else {
-            return(<View></View>);
-        }
-
-}
-
-function CorporateLeadership(props) {
-
-   const leaders = props.leaders.map((item) => {
-       return (
-            <RenderLeader leader={item} />
-       );
-   });
-
-   return (
-      <Card
-      title="Corporate Leadership"
-      >
-      {leaders}
-      </Card>
-   )
-}
-
 class AboutUs extends Component {
 
    constructor(props) {
@@ -65,10 +29,29 @@ class AboutUs extends Component {
    }
 
    render() {
+
+      const renderLeaderItem = ({item, index}) => {
+           return (
+              <ListItem
+                  key={index}
+                  title={item.name}
+                  subtitle={item.description}
+                  hideChevron={true}
+                  leftAvatar={{ source: require('./images/alberto.png')}}
+                />
+           );
+      };
+
       return(
          <ScrollView>
             <History />
-            <CorporateLeadership leaders={this.state.leaders}/>
+            <Card title="Corporate Leadership">
+               <FlatList
+                  data={this.state.leaders}
+                  renderItem={renderLeaderItem}
+                  keyExtractor={item => item.id.toString()}
+               />
+            </Card>
          </ScrollView>
       );
    }
