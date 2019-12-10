@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import { Card } from 'react-native-elements';
+import { LEADERS } from '../shared/leaders';
+
 
 function History() {
    return (
@@ -17,44 +19,56 @@ function History() {
    )
 }
 
-function RenderLeader(props) {
+function RenderLeader(leader) {
 
-    const dish = props.dish;
-
-        if (dish != null) {
+        if (leader != null) {
             return(
-                <Card
-                featuredTitle={dish.name}
-                image={require('./images/uthappizza.png')}>
-                    <Text style={{margin: 10}}>
-                        {dish.description}
-                    </Text>
-                </Card>
+                   <Card
+                   featuredTitle={leader.name}
+                   image={require('./images/alberto.png')}>
+                       <Text style={{margin: 10}}>
+                           {leader.description}
+                       </Text>
+                   </Card>
             );
         }
         else {
             return(<View></View>);
         }
+
 }
 
-function CorporateLeadership() {
+function CorporateLeadership(props) {
+
+   const leaders = props.leaders.map((item) => {
+       return (
+            <RenderLeader leader={item} />
+       );
+   });
+
    return (
       <Card
       title="Corporate Leadership"
       >
-          <Text style={{margin: 10}}>
-            Leaders go here
-          </Text>
+      {leaders}
       </Card>
    )
 }
 
 class AboutUs extends Component {
+
+   constructor(props) {
+         super(props);
+         this.state = {
+            leaders: LEADERS
+      };
+   }
+
    render() {
       return(
          <ScrollView>
             <History />
-            <CorporateLeadership />
+            <CorporateLeadership leaders={this.state.leaders}/>
          </ScrollView>
       );
    }
