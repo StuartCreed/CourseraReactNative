@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import { Text, ScrollView, View, FlatList } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
+import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 
+const mapStateToProps = state => {
+    return {
+      leaders: state.leaders
+    }
+  }
 
 function History() {
    return (
