@@ -1,1 +1,4 @@
 json-server --watch db.json -p 3001 -d 2000
+
+To access from phone:
+json-server --host 192.168.1.88 db.json --watch db.json -p 3001 -d 2000
