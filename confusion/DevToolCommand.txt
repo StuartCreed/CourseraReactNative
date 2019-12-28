@@ -1,0 +1,4 @@
+react-devtools
+
+Do this on the folder running the react native.
+Shake to toggle different elements
