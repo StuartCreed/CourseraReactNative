@@ -21,15 +21,12 @@ class Reservation extends Component {
    };
 
    toggleModal() {
-      console.log(JSON.stringify(this.state)," before toggleModal");
       this.setState({showModal: !this.state.showModal});
-      console.log(JSON.stringify(this.state)," after toggleModal");
    }
 
    handleReservation() {
-       console.log(JSON.stringify(this.state)," before handleReservation");
        this.toggleModal();
-       console.log(JSON.stringify(this.state)," after handleReservation");
+       console.log(JSON.stringify(this.state)," is the New Reservation details");
    }
 
    resetForm() {
@@ -63,7 +60,7 @@ class Reservation extends Component {
                    <Switch
                        style={styles.formItem}
                        value={this.state.smoking}
-                       onTintColor='#512DA8'
+                       trackColor={{ true: "green", false: "null" }}
                        onValueChange={(value) => this.setState({smoking: value})}>
                    </Switch>
                 </View>
@@ -102,9 +99,7 @@ class Reservation extends Component {
                     />
                 </View>
                 <Modal animationType = {"slide"} transparent = {false}
-                   visible = {this.state.showModal}
-                   onDismiss = {() => this.toggleModal() }
-                   onRequestClose = {() => this.toggleModal() }>
+                   visible = {this.state.showModal}   >
                    <View style = {styles.modal}>
                       <Text style = {styles.modalTitle}>Your Reservation</Text>
                       <Text style = {styles.modalText}>Number of Guests: {this.state.guests}</Text>
@@ -112,7 +107,7 @@ class Reservation extends Component {
                       <Text style = {styles.modalText}>Date and Time: {this.state.date}</Text>
 
                       <Button
-                           onPress = {() =>{this.toggleModal(); this.resetForm();}}
+                           onPress = {() => {this.resetForm()}}
                            color="#512DA8"
                            title="Close"
                            />
