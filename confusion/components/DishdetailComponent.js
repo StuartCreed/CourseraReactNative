@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button } from 'react-native';
-import { Card, Icon } from 'react-native-elements';
+import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
@@ -88,7 +88,8 @@ class DishDetail extends Component {
    constructor(props){
       super(props);
       this.state = {
-          showModal: false
+          showModal: false,
+          rating: null
       }
    }
 
@@ -97,7 +98,10 @@ class DishDetail extends Component {
    }
 
    resetModal() {
-      this.setState({showModal: false});
+      this.setState({
+         showModal: false,
+         rating: null
+      });
    }
 
    static navigationOptions = {
@@ -109,26 +113,32 @@ class DishDetail extends Component {
 
       return(
          <ScrollView>
-             <RenderDish dish={this.props.dishes.dishes[+dishId]}
-                 favorite={this.props.favorites.some(el => el === dishId)}
-                 onPress={() => this.markFavorite(dishId)}
-                 setState={() => this.setState({showModal: true})}
-                 />
-             <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
-             <Modal animationType = {"slide"} transparent = {false} visible = {this.state.showModal}>
+            <RenderDish dish={this.props.dishes.dishes[+dishId]}
+               favorite={this.props.favorites.some(el => el === dishId)}
+               onPress={() => this.markFavorite(dishId)}
+               setState={() => this.setState({showModal: true})}
+            />
+            <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+            <Modal animationType = {"slide"} transparent = {false} visible = {this.state.showModal}>
                 <View style = {styles.modal}>
-                   <Text style = {styles.modalTitle}>Your Reservation</Text>
-                   <Text style = {styles.modalText}>Number of Guests: </Text>
-                   <Text style = {styles.modalText}>Smoking?: </Text>
-                   <Text style = {styles.modalText}>Date and Time:</Text>
-
-                   <Button
-                       onPress = {() => {this.resetModal()}}
-                       color="#512DA8"
-                       title="Close"
-                       />
+                  <Rating showRating fractions="{1}" startingValue="{3.3}" />
+                  <Input
+                     placeholder='Author'
+                     leftIcon={{ type: 'font-awesome', name: 'user' }}
+                     leftIconContainerStyle={{margin: 10}}
+                  />
+                  <Input
+                     placeholder='Comment'
+                     leftIcon={{ type: 'font-awesome', name: 'comment' }}
+                     leftIconContainerStyle={{margin: 10}}
+                  />
+                  <Button
+                     onPress = {() => {this.resetModal()}}
+                     color="#512DA8"
+                     title="Close"
+                  />
                 </View>
-             </Modal>
+            </Modal>
          </ScrollView>
       );
    }
@@ -142,17 +152,13 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
     },
-    modalTitle: {
-       fontSize: 24,
-       fontWeight: 'bold',
-       backgroundColor: '#512DA8',
-       textAlign: 'center',
-       color: 'white',
-       marginBottom: 20
-    },
     modalText: {
        fontSize: 18,
        margin: 10
+    },
+    modal: {
+      justifyContent: 'center',
+      margin: 20
     },
 });
 
