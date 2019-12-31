@@ -23,7 +23,6 @@ function RenderDish(props) {
 
         if (dish != null) {
             return(
-               <>
                <Card
                featuredTitle={dish.name}
                image={{uri: baseUrl + dish.image}}>
@@ -47,25 +46,10 @@ function RenderDish(props) {
                         name={'pencil'}
                         type='font-awesome'
                         color='#512DA8'
-                        onPress={() => props.toggleModal()}
+                        onPress={props.setState}
                      />
                   </View>
                </Card>
-               <Modal animationType = {"slide"} transparent = {false} visible = {props.modalState}>
-                  <View style = {styles.modal}>
-                     <Text style = {styles.modalTitle}>Your Reservation</Text>
-                     <Text style = {styles.modalText}>Number of Guests: </Text>
-                     <Text style = {styles.modalText}>Smoking?: </Text>
-                     <Text style = {styles.modalText}>Date and Time:</Text>
-
-                     <Button
-                          onPress = {() => {props.resetModal()}}
-                          color="#512DA8"
-                          title="Close"
-                          />
-                  </View>
-               </Modal>
-               </>
             );
         }
         else {
@@ -112,18 +96,8 @@ class DishDetail extends Component {
       this.props.postFavorite(dishId);
    }
 
-   toggleModal() {
-      console.log(this.state.showModal, "currentState");
-      this.setState({showModal: true});
-      console.log(this.state.showModal, " state after modal toggle");
-   }
-
    resetModal() {
       this.setState({showModal: false});
-   }
-
-   modalState() {
-      return (this.state.showModal);
    }
 
    static navigationOptions = {
@@ -132,16 +106,29 @@ class DishDetail extends Component {
 
    render() {
       const dishId = this.props.navigation.getParam('dishId','');
+
       return(
          <ScrollView>
              <RenderDish dish={this.props.dishes.dishes[+dishId]}
                  favorite={this.props.favorites.some(el => el === dishId)}
                  onPress={() => this.markFavorite(dishId)}
-                 toggleModal={() => this.toggleModal()}
-                 resetModal={() => this.resetModal()}
-                 modalState={() => this.modalState()}
+                 setState={() => this.setState({showModal: true})}
                  />
              <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+             <Modal animationType = {"slide"} transparent = {false} visible = {this.state.showModal}>
+                <View style = {styles.modal}>
+                   <Text style = {styles.modalTitle}>Your Reservation</Text>
+                   <Text style = {styles.modalText}>Number of Guests: </Text>
+                   <Text style = {styles.modalText}>Smoking?: </Text>
+                   <Text style = {styles.modalText}>Date and Time:</Text>
+
+                   <Button
+                       onPress = {() => {this.resetModal()}}
+                       color="#512DA8"
+                       title="Close"
+                       />
+                </View>
+             </Modal>
          </ScrollView>
       );
    }
