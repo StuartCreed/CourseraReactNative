@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button } from 'react-native';
-import { Card, Icon, Rating, Input } from 'react-native-elements';
+import { Text, View, ScrollView, FlatList, StyleSheet, Modal } from 'react-native';
+import { Card, Icon, Rating, Input, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
@@ -121,7 +121,7 @@ class DishDetail extends Component {
             <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
             <Modal animationType = {"slide"} transparent = {false} visible = {this.state.showModal}>
                 <View style = {styles.modal}>
-                  <Rating showRating fractions="{1}" startingValue="{3.3}" />
+                  <Rating showRating fractions={1} startingValue={3} />
                   <Input
                      placeholder='Author'
                      leftIcon={{ type: 'font-awesome', name: 'user' }}
@@ -134,8 +134,13 @@ class DishDetail extends Component {
                   />
                   <Button
                      onPress = {() => {this.resetModal()}}
-                     color="#512DA8"
-                     title="Close"
+                     title="SUBMIT"
+                     buttonStyle={{backgroundColor:"#512DA8"}}
+                  />
+                  <Button
+                     onPress = {() => {this.resetModal()}}
+                     title="CANCEL"
+                     buttonStyle={{backgroundColor:"#787878"}}
                   />
                 </View>
             </Modal>
@@ -151,10 +156,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flex: 1,
       flexDirection: 'row',
-    },
-    modalText: {
-       fontSize: 18,
-       margin: 10
     },
     modal: {
       justifyContent: 'center',
