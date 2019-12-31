@@ -84,8 +84,23 @@ function RenderComments(props) {
 
 class DishDetail extends Component {
 
+   constructor(props){
+      super(props);
+      this.state = {
+          showModal: false
+      }
+   }
+
    markFavorite(dishId) {
       this.props.postFavorite(dishId);
+   }
+
+   toggleModal() {
+      this.setState({showModal: !this.state.showModal});
+   }
+
+   resetModal() {
+      this.setState({showModal: false});
    }
 
    static navigationOptions = {
@@ -99,6 +114,8 @@ class DishDetail extends Component {
              <RenderDish dish={this.props.dishes.dishes[+dishId]}
                  favorite={this.props.favorites.some(el => el === dishId)}
                  onPress={() => this.markFavorite(dishId)}
+                 toggleModal{() => this.toggleModal()}
+                 resetModal{() => this.resetModal()}
                  />
              <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
          </ScrollView>
