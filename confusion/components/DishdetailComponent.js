@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, FlatList, StyleSheet, Modal, Button } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
@@ -23,6 +23,7 @@ function RenderDish(props) {
 
         if (dish != null) {
             return(
+               <>
                <Card
                featuredTitle={dish.name}
                image={{uri: baseUrl + dish.image}}>
@@ -46,9 +47,25 @@ function RenderDish(props) {
                         name={'pencil'}
                         type='font-awesome'
                         color='#512DA8'
+                        onPress={() => props.toggleModal()}
                      />
                   </View>
                </Card>
+               <Modal animationType = {"slide"} transparent = {false} visible = {props.modalState}>
+                  <View style = {styles.modal}>
+                     <Text style = {styles.modalTitle}>Your Reservation</Text>
+                     <Text style = {styles.modalText}>Number of Guests: </Text>
+                     <Text style = {styles.modalText}>Smoking?: </Text>
+                     <Text style = {styles.modalText}>Date and Time:</Text>
+
+                     <Button
+                          onPress = {() => {props.resetModal()}}
+                          color="#512DA8"
+                          title="Close"
+                          />
+                  </View>
+               </Modal>
+               </>
             );
         }
         else {
@@ -96,11 +113,17 @@ class DishDetail extends Component {
    }
 
    toggleModal() {
-      this.setState({showModal: !this.state.showModal});
+      console.log(this.state.showModal, "currentState");
+      this.setState({showModal: true});
+      console.log(this.state.showModal, " state after modal toggle");
    }
 
    resetModal() {
       this.setState({showModal: false});
+   }
+
+   modalState() {
+      return (this.state.showModal);
    }
 
    static navigationOptions = {
@@ -114,8 +137,9 @@ class DishDetail extends Component {
              <RenderDish dish={this.props.dishes.dishes[+dishId]}
                  favorite={this.props.favorites.some(el => el === dishId)}
                  onPress={() => this.markFavorite(dishId)}
-                 toggleModal{() => this.toggleModal()}
-                 resetModal{() => this.resetModal()}
+                 toggleModal={() => this.toggleModal()}
+                 resetModal={() => this.resetModal()}
+                 modalState={() => this.modalState()}
                  />
              <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
          </ScrollView>
@@ -130,6 +154,18 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       flex: 1,
       flexDirection: 'row',
+    },
+    modalTitle: {
+       fontSize: 24,
+       fontWeight: 'bold',
+       backgroundColor: '#512DA8',
+       textAlign: 'center',
+       color: 'white',
+       marginBottom: 20
+    },
+    modalText: {
+       fontSize: 18,
+       margin: 10
     },
 });
 
