@@ -65,9 +65,9 @@ function RenderComments(props) {
     const renderCommentItem = ({item, index}) => {
 
         return (
-            <View key={index} style={{margin: 10}}>
+            <View key={index} style={{margin: 20}}>
                 <Text style={{fontSize: 14}}>{item.comment}</Text>
-                <Text style={{fontSize: 12}}>{item.rating} Stars</Text>
+                <Rating imageSize={10} style={styles.stars} fractions={1} startingValue={item.rating}/>
                 <Text style={{fontSize: 12}}>{'-- ' + item.author + ', ' + item.date} </Text>
             </View>
         );
@@ -180,6 +180,12 @@ const styles = StyleSheet.create({
     modal: {
       justifyContent: 'center',
       margin: 20
+    },
+    stars: {
+      justifyContent: 'flex-start',
+      flexDirection: 'row',
+      marginTop: 10,
+      marginBottom: 10
     },
 });
 
