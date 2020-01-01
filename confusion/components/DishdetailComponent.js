@@ -89,7 +89,9 @@ class DishDetail extends Component {
       super(props);
       this.state = {
           showModal: false,
-          rating: null
+          rating: null,
+          author: null,
+          comment: null
       }
    }
 
@@ -103,6 +105,16 @@ class DishDetail extends Component {
          rating: null
       });
    }
+
+   handleComment() {
+      this.setState({
+         showModal: false,
+      })
+   }
+
+   handleRating(RatingSubmitted) {(
+      this.setState({rating: RatingSubmitted})
+   )}
 
    static navigationOptions = {
       title: 'Dish Details'
@@ -121,7 +133,7 @@ class DishDetail extends Component {
             <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
             <Modal animationType = {"slide"} transparent = {false} visible = {this.state.showModal}>
                 <View style = {styles.modal}>
-                  <Rating showRating fractions={1} startingValue={3} />
+                  <Rating showRating fractions={1} startingValue={3} onFinishRating={(RatingSubmitted) => (this.setState({rating: RatingSubmitted}))} />
                   <Input
                      placeholder='Author'
                      leftIcon={{ type: 'font-awesome', name: 'user' }}
@@ -133,14 +145,14 @@ class DishDetail extends Component {
                      leftIconContainerStyle={{margin: 10}}
                   />
                   <Button
-                     onPress = {() => {this.resetModal()}}
+                     onPress = {() => {this.handleComment()}}
                      title="SUBMIT"
-                     buttonStyle={{backgroundColor:"#512DA8"}}
+                     buttonStyle={{backgroundColor:"#512DA8", margin: 10}}
                   />
                   <Button
                      onPress = {() => {this.resetModal()}}
                      title="CANCEL"
-                     buttonStyle={{backgroundColor:"#787878"}}
+                     buttonStyle={{backgroundColor:"#787878", margin: 10}}
                   />
                 </View>
             </Modal>
