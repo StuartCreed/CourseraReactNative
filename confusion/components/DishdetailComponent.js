@@ -72,7 +72,7 @@ function RenderComments(props) {
             </View>
         );
     };
-    
+
 
     return (
         <Card title='Comments' >
