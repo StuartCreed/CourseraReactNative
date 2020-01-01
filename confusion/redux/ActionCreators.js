@@ -162,7 +162,7 @@ export const postComment = (dishId, rating, author, comment)  => (dispatch) => {
    /*the above prints out the correct*/
 
    newComment = {
-      dishId: dishId,
+      id: dishId,
       rating: rating,
       author: author,
       comment: comment
