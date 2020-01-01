@@ -3,7 +3,7 @@ import { Text, View, ScrollView, FlatList, StyleSheet, Modal } from 'react-nativ
 import { Card, Icon, Rating, Input, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
-import { postFavorite } from '../redux/ActionCreators';
+import { postFavorite, postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -14,7 +14,8 @@ const mapStateToProps = state => {
   }
 
 const mapDispatchToProps = dispatch => ({
-    postFavorite: (dishId) => dispatch(postFavorite(dishId))
+    postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 })
 
 function RenderDish(props) {
@@ -89,7 +90,7 @@ class DishDetail extends Component {
       super(props);
       this.state = {
           showModal: false,
-          rating: null,
+          rating: 3,
           author: null,
           comment: null
       }
@@ -102,14 +103,18 @@ class DishDetail extends Component {
    resetModal() {
       this.setState({
          showModal: false,
-         rating: null
+         rating: 3
       });
    }
 
-   handleComment() {
+   handleComment(dishId) {
+      rating = this.state.rating;
+      author = this.state.author;
+      comment = this.state.comment;
+      this.props.postComment(dishId, rating, author, comment);
       this.setState({
          showModal: false,
-      })
+      });
    }
 
    handleRating(RatingSubmitted) {(
@@ -138,14 +143,16 @@ class DishDetail extends Component {
                      placeholder='Author'
                      leftIcon={{ type: 'font-awesome', name: 'user' }}
                      leftIconContainerStyle={{margin: 10}}
+                     onChangeText={(TextSubmitted) => (this.setState({author: TextSubmitted}))}
                   />
                   <Input
                      placeholder='Comment'
                      leftIcon={{ type: 'font-awesome', name: 'comment' }}
                      leftIconContainerStyle={{margin: 10}}
+                     onChangeText={(TextSubmitted) => (this.setState({comment: TextSubmitted}))}
                   />
                   <Button
-                     onPress = {() => {this.handleComment()}}
+                     onPress = {() => {this.handleComment(dishId)}}
                      title="SUBMIT"
                      buttonStyle={{backgroundColor:"#512DA8", margin: 10}}
                   />
