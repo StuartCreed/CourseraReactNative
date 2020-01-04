@@ -16,7 +16,7 @@ export default class App extends React.Component {
           persistor={persistor}>
           <Main />
         </PersistGate>
-      </Provider>
+      </Provider> 
     );
   }
 }
