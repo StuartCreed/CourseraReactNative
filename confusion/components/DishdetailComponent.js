@@ -25,6 +25,16 @@ function RenderDish(props) {
 
       handleViewRef = ref => this.view = ref;
 
+      const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+         if ( dx > 200 ) {
+            console.log("Recognised Comment done");
+            return true;
+         }
+
+         else
+            return false;
+      }
+
       const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
          if ( dx < -200 )
             return true;
@@ -39,7 +49,8 @@ function RenderDish(props) {
          onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
          onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
-            if (recognizeDrag(gestureState))
+            if (recognizeDrag(gestureState)) {
+               console.log("Right to Left Swipe Recognised")
                Alert.alert(
                   'Add Favorite',
                   'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -49,8 +60,22 @@ function RenderDish(props) {
                   ],
                   { cancelable: false }
                  );
+               return true;
+             }
 
-            return true;
+            else if (recognizeComment(gestureState)) {
+               console.log("Left to Right Swipe Recognised");
+               Alert.alert(
+                  'Add Comment',
+                  'Are you sure you wish to add a comment?',
+                  [
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'OK', onPress: props.setState},
+                  ],
+                  { cancelable: false }
+                 );
+               return true;
+            }
          }
       })
 
