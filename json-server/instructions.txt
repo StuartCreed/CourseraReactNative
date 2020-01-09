@@ -7,4 +7,4 @@ To access from Mum's WIFI:
 json-server --host 192.168.0.21 db.json --watch db.json -p 3001 -d 2000
 
 To access on mobile hotspot:
-json-server --host 172.20.10.5 db.json --watch db.json -p 3001 -d 2000
+json-server --host 172.20.10.7 db.json --watch db.json -p 3001 -d 2000
