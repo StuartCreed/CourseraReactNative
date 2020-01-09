@@ -1,7 +1,7 @@
 json-server --watch db.json -p 3001 -d 2000
 
 To access from Chelt WIFI:
-json-server --host 192.168.1.88 db.json --watch db.json -p 3001 -d 2000
+json-server --host 192.168.1.98 db.json --watch db.json -p 3001 -d 2000
 
 To access from Mum's WIFI:
 json-server --host 192.168.0.21 db.json --watch db.json -p 3001 -d 2000
