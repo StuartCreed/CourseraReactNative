@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -23,7 +24,7 @@ class Reservation extends Component {
         title: 'Reserve Table',
    };
 
-   handleReservation() {
+  async handleReservation() {
       console.log(JSON.stringify(this.state)," is the New Reservation details");
       smokingState = this.state.smoking ? 'Yes' : 'No';
       Alert.alert(
@@ -43,6 +44,10 @@ class Reservation extends Component {
          ],
          {cancelable: false},
        );
+
+       console.log(this.state.reserved)
+
+       await this.obtainCalendarPermission();
    }
 
    resetForm() {
@@ -52,6 +57,18 @@ class Reservation extends Component {
            date: '',
            showModal: false
        });
+   }
+
+   async obtainCalendarPermission() {
+     let permission = await Permissions.getAsync(Permissions.CALENDAR);
+     if (permission.status !== 'granted') {
+         permission = await Permissions.askAsync(Permissions.CALENDAR);
+         if (permission.status !== 'granted') {
+           Alert.alert('Permission not granted to show notifications');
+         }
+     }
+     console.log(permission.status, "this is the permission STATUS")
+     return permission;
    }
 
   async obtainNotificationPermission() {

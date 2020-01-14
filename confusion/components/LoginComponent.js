@@ -215,10 +215,12 @@ class RegisterTab extends Component {
                         />
                     <Button
                         title="Camera"
+                        buttonStyle={styles.formButton}
                         onPress={this.getImageFromCamera}
                         />
                     <Button
                         title="Gallery"
+                        buttonStyle={styles.formButton}
                         onPress={this.getImageFromGallery}
                         />
                 </View>
@@ -299,7 +301,9 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 1,
         flexDirection: 'row',
-        margin: 20
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     image: {
       margin: 10,
@@ -314,8 +318,8 @@ const styles = StyleSheet.create({
         backgroundColor: null
     },
     formButton: {
-        margin: 60
-    }
+        margin: 20,
+    },
 });
 
 const Login = createBottomTabNavigator({
