@@ -48,7 +48,34 @@ class Reservation extends Component {
        console.log(this.state.reserved)
 
        await this.obtainCalendarPermission();
+       this.addReservationToCalendar();
    }
+
+  async addReservationToCalendar() {
+    console.log("addReservationToCalendar Invoked");
+    const calendars = await Calendar.getCalendarsAsync();
+    console.log('Here are all your calendars:');
+    console.log({ calendars });
+    const defaultCalendar = calendars.filter(
+    each => each.source.name === 'Default'
+    );
+    if (defaultCalendar[0] == null) {
+      console.log("There is no default calendar, the event will be placed in the first available calendar");
+      calendarId=calendars[0].source.id;
+      console.log(calendarId," Chosen calendar");
+      Calendar.createEventAsync(calendarId, {
+        startDate: new Date('2020-15-01'),
+        endDate: new Date('2020-15-01'),
+        title: "push"
+      })
+
+    }
+    if (defaultCalendar[0] !== null) {
+      defaultCalendarId=defaultCalendar[0].source.id;
+      console.log(defaultCalendarId, " is the default calendar");
+
+    }
+  }
 
    resetForm() {
        this.setState({
