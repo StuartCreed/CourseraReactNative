@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ReactNative",
+    "name": "ReactNativeTest",
     "slug": "confusion",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -23,8 +23,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "net.food.confusion.confusion"
+    },
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "net.food.confusion.confusion"
+    },
+    "description": ""
   }
 }

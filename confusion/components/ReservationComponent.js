@@ -60,20 +60,54 @@ class Reservation extends Component {
     each => each.source.name === 'Default'
     );
     if (defaultCalendar[0] == null) {
-      console.log("There is no default calendar, the event will be placed in the first available calendar");
-      calendarId=calendars[0].source.id;
-      console.log(calendarId," Chosen calendar");
-      Calendar.createEventAsync(calendarId, {
-        startDate: new Date('2020-15-01'),
-        endDate: new Date('2020-15-01'),
-        title: "push"
-      })
+        console.log("There is no default calendar, the event will be placed in the first available calendar that can be edited");
+
+        const calendarsThatCanBeEdited = calendars.filter(
+        each => each.allowsModifications == true
+        );
+
+        if (calendarsThatCanBeEdited[0] == null) {
+          console.log("None of the available calendars on the device can be edited");
+        }
+
+        if (calendarsThatCanBeEdited[0] !== null) {
+          calendarId=JSON.stringify(calendarsThatCanBeEdited[0].id);
+          console.log(calendarsThatCanBeEdited[0],"a calendar that can be edited");
+          console.log(calendarId,"ID of the chosen calendar");
+          await Calendar.createEventAsync(calendarId, {
+            startDate: "2020-01-15T08:00:00.000Z",
+            endDate: "2020-01-15T09:00:00.000Z",
+            title: "Title of Event",
+            timeZone: "Asia/Hong_Kong",
+            location: "121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong"
+          })
+        }
 
     }
     if (defaultCalendar[0] !== null) {
       defaultCalendarId=defaultCalendar[0].source.id;
       console.log(defaultCalendarId, " is the default calendar");
 
+      const calendarsThatCanBeEdited = defaultCalendarId.filter(
+      each => each.allowsModifications == true
+      );
+
+      if (calendarsThatCanBeEdited[0] == null) {
+        console.log("The default calendar on the device cannot be edited");
+      }
+
+      if (calendarsThatCanBeEdited[0] !== null) {
+        calendarId=JSON.stringify(calendarsThatCanBeEdited[0].id);
+        console.log(calendarsThatCanBeEdited[0],"The default calendar can be edited");
+        console.log(calendarId,"ID of the chosen default calendar");
+        await Calendar.createEventAsync(calendarId, {
+          startDate: "2020-01-15T08:00:00.000Z",
+          endDate: "2020-01-15T09:00:00.000Z",
+          title: "Title of Event",
+          timeZone: "Asia/Hong_Kong",
+          location: "121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong"
+        })
+      }
     }
   }
 
